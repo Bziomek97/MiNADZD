@@ -1,8 +1,9 @@
+from tools.evironment import getDebugInfo
 import time
 import datetime
 
 class Logger:
-    debug_mode = False
+    debug_mode = getDebugInfo()
 
     def __init__(self, componentName: str) -> None:
         self.component = componentName
