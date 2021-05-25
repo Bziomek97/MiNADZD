@@ -8,3 +8,5 @@ hadoop = HadoopConnection()
 mongo = MongoDbDriver()
 
 intervalRefresh()
+
+#TODO: Add logic to get data on demand
