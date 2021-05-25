@@ -1,6 +1,7 @@
 from tools.evironment import getDebugInfo
-import time
 from datetime import datetime
+import time
+import json
 
 class Logger:
     debug_mode = getDebugInfo()
@@ -30,5 +31,7 @@ class Logger:
                 'loglevel': level,
                 'message': message
             }
+
+            jsonLogData = json.dumps(logData)
 
             # TODO: logic to send data into local database
