@@ -1,6 +1,6 @@
 from tools.evironment import getDebugInfo
 import time
-import datetime
+from datetime import datetime
 
 class Logger:
     debug_mode = getDebugInfo()
@@ -21,5 +21,14 @@ class Logger:
         elif self.debug_mode and level == 'debug':
             return
 
-        st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-        print("[%s][%s][%s] %s" % (st, self.component, level, message))
+        if self.debug_mode and level == 'debug':
+            st = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+            print("[%s][%s][%s] %s" % (st, self.component, level, message))
+        else:
+            logData = {
+                'timestamp': datetime.timestamp(datetime.now()),
+                'loglevel': level,
+                'message': message
+            }
+
+            # TODO: logic to send data into local database
