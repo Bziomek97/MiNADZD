@@ -4,7 +4,7 @@ from app.webScrapping import web_scrapping
 from tools.evironment import get_cloud_database_connection_string
 from tools.intervalExecution import interval_refresh
 from app.mongo import MongoDbDriver
-from app.hadoop import HDFSConnector
+from app.hdfs import HDFSConnector
 
 
 # Initialization
