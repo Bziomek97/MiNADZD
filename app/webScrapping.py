@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 import json
 import typing
 
+
 def string_to_value(val: str) -> typing.Tuple[int, float]:
     if val == '':
         return 0
@@ -24,14 +25,13 @@ def web_scrapping() -> json:
     driver = webdriver.Chrome(options=chrome_options)
     driver.get('https://www.worldometers.info/coronavirus')
 
-    logger.log_entry('Get rows from table')
+    logger.log_entry('Getting data from table')
     elements = driver.find_elements_by_xpath('//table[@id="main_table_countries_today"]/tbody/tr')
     
     if len(elements) == 0:
         logger.log_entry('Table/Element not found', 'err')
         exit(1)
 
-    logger.log_entry('Get data from rows')
     for element in elements:
         get_inner_elements = element.find_elements_by_xpath('td')
 
@@ -56,6 +56,3 @@ def web_scrapping() -> json:
     driver.close()
 
     return json.dumps(data)
-
-if __name__ == "__main__":
-    print(web_scrapping())

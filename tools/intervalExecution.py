@@ -1,9 +1,17 @@
 from app.webScrapping import web_scrapping
-from app.hadoop import HadoopConnection
+from app.hadoop import HDFSConnector
+from tools.logger import Logger
 import threading
 
-def intervalRefresh():
-    threading.Timer(180.0, intervalRefresh).start()
-    hadoopConnection = HadoopConnection()
-    hadoopConnection.putCOVIDData(web_scrapping())
-    del hadoopConnection
+
+def interval_refresh(interval: float = 180.0) -> None:
+    threading.Timer(interval, interval_refresh).start()
+
+    logger = Logger('Interval data refresh')
+
+    logger.log_entry('Dispatch interval task')
+    hadoopConnection = HDFSConnector()
+    hadoopConnection.put_covid_data(web_scrapping())
+
+    logger.log_entry('Clean up after download', 'debug')
+    del hadoopConnection, logger

@@ -1,14 +1,12 @@
-from tools.evironment import getDatabaseConnectionPath
+import json
 import pymongo
+
 
 class MongoDbDriver:
 
-    def __init__(self):
-        self.__client = pymongo.MongoClient(getDatabaseConnectionPath(), tls=True)
+    def __init__(self, connectionString: str, database: str, collection: str):
+        conn = pymongo.MongoClient(connectionString)[database]
+        self.__collection = conn[collection]
 
-    def test(self):
-        print(self.__client.test)
-
-if __name__ == '__main__':
-    mongo = MongoDbDriver()
-    mongo.test()
+    def put_data_to_db(self, data: dict) -> None:
+        self.__collection.insert_one(data)
