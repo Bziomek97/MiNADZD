@@ -38,8 +38,9 @@ if intervalGet in ['T','t','Y','y', '']:
             interval_refresh()
             
     except ValueError:
-        print('Wprowadzony interval musi byc floatem! Uruchamiam interval defaultowy')
-        logger.log_entry('Inputed interval must be float! Dispatch default interval', 'warn')
+        if interval == '':
+            print('Wprowadzony interval musi byc floatem! Uruchamiam interval defaultowy')
+            logger.log_entry('Inputed interval must be float! Dispatch default interval', 'warn')
         interval_refresh()
 
 else:

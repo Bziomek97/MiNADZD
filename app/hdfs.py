@@ -12,11 +12,8 @@ class HDFSConnector:
         self.__hdfs = HDFileSystem(host = host, port = port)
 
     def get_covid_data(self, version: int) -> None:
-        self.logger.log_entry('Get data from covid-%d.json file' % version)
-        print(self.__hdfs.cat('/minadzd/covid-' + str(version) + '.json'))
-
-    def get_covid_file_counter(self) -> None:
-        return len(self.__hdfs.ls('/minadzd'))
+        self.logger.log_entry('Get data from covid.json file')
+        print(self.__hdfs.cat('/minadzd/covid.json'))
     
     def clean_covid_data(self) -> None:
         if self.__hdfs.isdir('/minadzd'):
@@ -27,10 +24,7 @@ class HDFSConnector:
         self.__hdfs.mkdir('/minadzd')
 
     def put_covid_data(self, data) -> None:
-        version = self.get_covid_file_counter()
-        self.logger.log_entry('Recently covid data file: %s' % str(version + 1))
-
-        with self.__hdfs.open('/minadzd/covid-' + str(version) + '.json', 'wb') as f:
+        with self.__hdfs.open('/minadzd/covid.json', 'wb') as f:
             self.logger.log_entry('Putting data to hdfs')
             f.write(b'%s' % data.encode('ascii'))
             self.logger.log_entry('Putted data', 'debug')

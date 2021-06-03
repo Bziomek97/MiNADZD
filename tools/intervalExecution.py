@@ -1,5 +1,5 @@
 from app.webScrapping import web_scrapping
-from app.hadoop import HDFSConnector
+from app.hdfs import HDFSConnector
 from tools.logger import Logger
 import threading
 
