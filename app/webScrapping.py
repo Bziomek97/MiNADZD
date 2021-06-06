@@ -6,7 +6,7 @@ import typing
 
 
 def string_to_value(val: str) -> typing.Tuple[int, float]:
-    if val == '':
+    if val == '' or val == 'N/A':
         return 0
     else:
         if val.find('.') == -1:
@@ -35,7 +35,7 @@ def web_scrapping() -> json:
     for element in elements:
         get_inner_elements = element.find_elements_by_xpath('td')
 
-        if get_inner_elements[1].text == '':
+        if get_inner_elements[1].text == '' or get_inner_elements[1].text == 'World' or get_inner_elements[1].text == 'Total':
             continue
 
         inner_data = {

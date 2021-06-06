@@ -8,15 +8,18 @@ from app.hdfs import HDFSConnector
 
 
 # Initialization
-hadoop = HDFSConnector()
+hdfs = HDFSConnector()
 mongo = MongoDbDriver(get_cloud_database_connection_string(), 'covidData', 'test')
 logger = Logger('App')
+
+# Put mapreduce scripts to HDFS
+hdfs.put_mapper_reducer_to_hdfs()
 
 # Ask about clean data in HDFS
 clean = input('Czy dane mają być wyczyszczone?([T]/n) ')
 if clean in ['T','t','Y','y', '']:
     logger.log_entry('Dane zostana wyczyszczone')
-    hadoop.clean_covid_data()
+    hdfs.clean_covid_data()
     logger.log_entry('Dane zostaly wyczyszczone')
 else:
     logger.log_entry('Dane nie zostaly wyczyszczone')
@@ -44,4 +47,4 @@ if intervalGet in ['T','t','Y','y', '']:
         interval_refresh()
 
 else:
-    hadoop.put_covid_data(web_scrapping())
+    hdfs.put_covid_data(web_scrapping())

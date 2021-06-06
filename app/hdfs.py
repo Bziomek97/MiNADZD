@@ -28,3 +28,12 @@ class HDFSConnector:
             self.logger.log_entry('Putting data to hdfs')
             f.write(b'%s' % data.encode('ascii'))
             self.logger.log_entry('Putted data', 'debug')
+
+    def put_mapper_reducer_to_hdfs(self) -> None:
+        if not self.__hdfs.isfile('/script/mapper.py'):
+            self.__hdfs.put('./mapreduce/mapper.py', '/script/mapper.py')
+            self.__hdfs.chmod('/script/mapper.py', 0o777)
+        
+        if not self.__hdfs.isfile('/script/reducer.py'):
+            self.__hdfs.put('./mapreduce/reducer.py', '/script/reducer.py')
+            self.__hdfs.chmod('/script/reducer.py', 0o777)
