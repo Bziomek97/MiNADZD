@@ -3,7 +3,13 @@
 
 import sys
 import json
-from itertools import islice
+
+def get_max_15_values(data, stat):
+    tmp = dict()
+    for key, value in data.items():
+        tmp[key] = value[stat]
+
+    return dict(sorted(tmp.items(), key=lambda x: x[1], reverse=True)[:10])
 
 def main():
 
@@ -26,15 +32,24 @@ def main():
 
 
     # Operation section - f.e grab 15 countries with highest per 1000 people total cases
-    result_list = dict()
-
-    tmp = dict()
-    for key, value in covid_holder.items():
-        tmp[key] = value['total_cases']
     
-    result_list['total_cases_per_1000'] = dict(islice(dict(sorted(tmp.items(), reverse=True, key=lambda item: item[1])).items(), 15))
+    result_list = dict()
+    statistics = {
+        'total_cases_highest_countries': 'total_cases',
+        'new_cases_highest_countries': 'new_cases',
+        'total_deaths_highest_countries': 'total_deaths',
+        'new_deaths_highest_countries': 'new_deaths',
+        'total_recovered_highest_countries': 'total_recovered',
+        'active_cases_highest_countries': 'active_cases',
+        'serious_cases_highest_countries': 'serious_cases',
+        'total_tests_highest_countries': 'total_tests'
+    }
 
+    for key, value in statistics.items():
+        result_list[key] = get_max_15_values(covid_holder, value)
 
+    for key in result_list.keys():
+        result_list[key]['Total'] = sum(result_list[key].values())
 
     for key, value in result_list.items():
         try:
